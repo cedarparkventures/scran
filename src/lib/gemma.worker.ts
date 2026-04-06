@@ -76,15 +76,9 @@ function sanitizeOutput(text: string) {
     .trim()
 }
 
-function configureRemoteHost() {
-  const baseUrl = new URL('/gemma-models/', self.location.origin)
-  env.remoteHost = baseUrl.origin
-  env.remotePathTemplate = `${baseUrl.pathname}{model}/`
-  env.useBrowserCache = false
-}
-
 async function ensureLoaded() {
-  configureRemoteHost()
+  // Use default HuggingFace CDN — no custom proxy needed
+  env.allowLocalModels = false
 
   if (state.processor && state.model) {
     post({ status: 'ready' })
